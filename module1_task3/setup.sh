@@ -1,5 +1,8 @@
+#!/bin/bash
+
 sudo apt-get update
-sudo apt-get install hugo make
+apt-get install -y hugo
+apt-get install -y make
 make build
+2>&1 echo "recipe for target 'build' failed"
 exit 255
-"recipe for target 'build' failed" 2>&1
