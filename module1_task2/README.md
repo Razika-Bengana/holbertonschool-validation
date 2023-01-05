@@ -24,7 +24,7 @@ You'll only need to follow the steps and have a basic knowledge of your command 
 
 ## LifeCycle
 
-> First you `build`
-> Then you `clean`
-> You may also `post`
-> And if you need, some `help`
+    - First you `build`
+    - Then you `clean`
+    - You may also `post`
+    - And if you need, some `help`
