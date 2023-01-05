@@ -8,7 +8,7 @@ By going to the following website:
 
 You'll only need to follow the steps and have a basic knowledge of your command line.
 
---
+---
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ You'll only need to follow the steps and have a basic knowledge of your command 
     - a Makefile present
     - no Git submodules
 
---
+---
 
 ## LifeCycle
 
