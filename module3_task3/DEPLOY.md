@@ -19,3 +19,9 @@
 
 - To verify that the application is running, run `hugo server`.
 - Check this out on local host [http://localhost:1313]
+
+### Releases
+
+- A new release is created with `awesome-website.zip` file archive
+- This archive is added to the release `1.0.0`
+- This release is pointing to the tag `1.0.0`
