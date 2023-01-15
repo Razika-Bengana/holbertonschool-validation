@@ -1,10 +1,14 @@
-build:  ## Generate the website from the markdown and configuration files in the directory dist/.
-	hugo > /dev/null 2>&1
+# Define variables
+Publish=hugo
+SHELLCHECK=shellcheck
 
-clean:  ## Cleanup the content of the directory dist/
+build: ## Generate the website from the markdown and configuration files in the directory dist/.
+	$(Publish)
+
+clean: ## Cleanup the content of the directory dist/
 	rm -r dist/*
 
-post:  ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
+post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 	hugo new posts/$(POST_NAME).md
 	sed -i '/title/c\title: "${POST_TITLE}"' content/posts/${POST_NAME}.md
 
@@ -33,5 +37,5 @@ package: ## creates archive
 	make build
 	zip awesome-website.zip dist/
 
-help:  ## print out the list of targets and their usage
+help: ## print out the list of targets and their usage
 	cat Makefile | grep '##' | tr -d '##' | head -n -1
