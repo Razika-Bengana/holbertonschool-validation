@@ -1,19 +1,21 @@
 # DEPLOY.md
----
 
-- What is in the archive and how to unarchive it?
+## Deployment file
 
-It is a compressed file that is the `awesome-website.zip`.
-To unarchive it, use the command `unzip` [name of the file]
+### What is in the archive and how to unarchive it?
 
-- What are the commands to start and stop the application?
+- It is a compressed file that is the `awesome-website.zip`.
+- To unarchive it, use the command `unzip` [name of the file]
 
-We can start and stop the application with `make build` and `make clean`
+### What are the commands to start and stop the application?
 
-- How to customize where the application logs are written?
-I don't know
+- We can start and stop the application with `make build` and `make clean`
 
-- How to “quickly” verify that the application is running (healthcheck)?
+### How to customize where the application logs are written?
 
-To verify that the application is running, run `hugo server`.
-Check this out on local host [http://localhost:1313].
+- I don't know
+
+### How to “quickly” verify that the application is running (healthcheck)?
+
+- To verify that the application is running, run `hugo server`.
+- Check this out on local host [http://localhost:1313].
