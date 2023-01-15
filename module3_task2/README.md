@@ -1,46 +1,34 @@
 # Introduction to DevOps: Automate Everything
 
-## Description
-
-Empathy as Code: Inline Help, Comment and Documentation
-
-By going to the following website:
-
-    [gohugo.io](https://gohugo.io/getting-started/quick-start/)
-
-You'll only need to follow the steps and have a basic knowledge of your command line.
-
----
-
 ## Prerequisites
+* Install Go (version >= 1.14)
+* Install Hugo (extenden edition recomendend)
+* Install Git
+* Install GNU Make (version 3.81+)
 
-    - Linux Fundamentals
-    - Git for the distributed version control system
-    - GitHub to deploy source code
-    - Go-Hugo to build the website
-    - theme ananke for the website
-    - a Makefile present
-    - no Git submodules
+## Lifecycle
+1. Create the hugo new site.
+2. Clone the theme in theme directory.
+3. Add the theme to `config.toml` file.
+4. Use `make build ` to create the webpage.
+5. Use `make post` to create a new post. `post` use two variables: `PATH_TITLE, PATH_NAME`  
+  like information to the post.
+6. Use `make package` create a zip with the awesome-api binary file.
+7. Use `make lint` to update README.md and DEPLOY.md to lint
+8. Use `make clean` to clean the dist directory.
 
----
-
-## LifeCycle
-
-    - First you `build`
-    - Then you `clean`
-    - You may also `post`
-    - And if you need, some `help`
-
----
+## Not implemented yet:
+* unit-tests
+* integration-tests
+* validate
 
 ## Workflow
+* Clone the repository.
+* Check the clonation with `make help` command.
 
-You are expected to create a new workflow named `module3_task0` with only the following steps:
+## Build Workflow
+* Modified `setup.sh` to install requeried tools
+* Clone the repository.
+* Use `make build`
 
-- Clone the repository
-- Position yourself in the correct directory and execute the command `make help` to validate that the Makefile is present and implements the help target.
-
-This workflow must be triggered:
-
-- Each time there is new code pushed on your repository
-- And once per day (whatever time you want).
+Use `make help` if you need help
