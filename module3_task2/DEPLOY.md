@@ -18,4 +18,4 @@
 ### How to “quickly” verify that the application is running (healthcheck)?
 
 - To verify that the application is running, run `hugo server`.
-- Check this out on local host [http://localhost:1313].
+- Check this out on local host [http://localhost:1313]
