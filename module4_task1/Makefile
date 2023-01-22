@@ -7,6 +7,9 @@ build: ## Creates the site.
 	hugo
 	touch awesome-api
 
+build-tools:## Install the hugo package and tools
+	sudo apt install ./hugo.deb
+
 clean: ## ERROR: No comment found for target clean in ./Makefile
 	rm -fr dist awesome-website.zip
 
