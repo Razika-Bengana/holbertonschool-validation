@@ -1,64 +1,38 @@
-# Define variables
-Publish=hugo
-SHELLCHECK=shellcheck
-export PATH
+.PHONY: all build clean
 
-## Declare a list of phony targets
-.PHONY: build build-docker build-tools test
-
-build: ## Generate the website from the markdown and configuration files in the directory dist/.
-	sudo apt install ./hugo.deb
-	$(Publish)
+build: ## Creates the site.
+	curl -L https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_linux-amd64.deb -o hugo_server.deb
+	apt install ./hugo_server.deb
+	rm -rf ./hugo_server.deb
+	hugo
 	touch awesome-api
 
-build-docker:## Build a Docker image for the build directory
-	docker build -t "awesome:build" ./build --no-cache
+clean: ## ERROR: No comment found for target clean in ./Makefile
+	rm -fr dist awesome-website.zip
 
-build-tools:## Install the hugo package and tools
-	sudo apt install ./hugo.deb
-
-test:## Run the clean target inside a Docker container , execute hugo and ls ./dist
-	docker run awesome:build sh -c "make clean || echo 'Lint Failed'"
-	docker run awesome:build sh -c "hugo; ls ./dist/*"
-
-clean: ## Cleanup the content of the directory dist/
-	rm -r dist/*
-
-post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
-	hugo new posts/$(POST_NAME).md
+post: ## Creates a post with given POST_NAME and POST_TITLE.
+	hugo new posts/${POST_NAME}.md
 	sed -i '/title/c\title: "${POST_TITLE}"' content/posts/${POST_NAME}.md
 
-lint: ## shellcheck setup
-	apt install curl -y
-	curl --silent --location https://deb.nodesource.com/setup_16.x | bash -
-	apt install nodejs -y
-	npm install -g markdownlint-cli 1>&2
-	markdownlint README.md
-	markdownlint DEPLOY.md
+package: ## produces a file awesome-website.zip, containing the binary awesome-api and the directory dist
+	zip -r awesome-website.zip dist/ awesome-api
 
-markdownlint: ## updated to lint the files README.md and DEPLOY.md
-	markdownlint README.md
-	markdownlint DEPLOY.md
+lint: ## update files README.md and DEPLOY.md to markdownlint
+	curl --silent --location -fsSL https://deb.nodesource.com/setup_16.x | bash -
+	apt-get install -y nodejs
+	npm install -g markdownlint-cli || true
+	markdownlint --fix DEPLOY.md
 
-shellcheck:## Run the shellcheck tool on the setup.sh script
-	$(SHELLCHECK) setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+help: ## shows commands
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-integration-tests: ## server and check the localhost
-	touch coverage-integrations.out
-
-unit-tests: ## Runs different makefile recipes
+unit-tests: ## ERROR: No comment found for target unit-tests in ./Makefile
 	touch coverage-units.out
 
-validate: ## Tests dir
-	ls dist
+integration-tests: ## ERROR: No comment found for target integration-tests in ./Makefile
+	touch coverage-integrations.out
 
-package: ## creates archive
-	make build
-	mkdir -p dist
-	zip awesome-website.zip dist/
+validate: ## ERROR: No comment found for target validate in ./Makefile
 
-## Suppress command output
-.SILENT:
-
-help: ## print out the list of targets and their usage
-	cat Makefile | grep '##' | tr -d '##' | head -n -1
+build-docker: ## build a docker image from Dockerfile
+	docker build --no-cache -t awesome:build -f ./build/Dockerfile .
