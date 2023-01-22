@@ -1,41 +1,45 @@
-.PHONY: all build clean
+help: ## Show help command
+	@sed -ne '/@sed/!s/## //p' Makefile
 
-build: ## Creates the site.
-	curl -L https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_linux-amd64.deb -o hugo_server.deb
-	apt install ./hugo_server.deb
-	rm -rf ./hugo_server.deb
-	hugo
-	touch awesome-api
+.PHONY: build
+build:  ## Create Website
+	@sudo apt install ./hugo.deb
+	@hugo
+	@touch awesome-api
 
-build-tools:## Install the hugo package and tools
-	sudo apt install ./hugo.deb
+clean:  ## Delete content of dist folder
+	@rm -rf dist/*
 
-clean: ## ERROR: No comment found for target clean in ./Makefile
-	rm -fr dist awesome-website.zip
+post:  ## Create a post
+	@hugo new posts/$(POST_NAME).md
+	@sed -i '/title:*/c\title: "$(POST_TITLE)"' ./content/posts/$(POST_NAME).md
 
-post: ## Creates a post with given POST_NAME and POST_TITLE.
-	hugo new posts/${POST_NAME}.md
-	sed -i '/title/c\title: "${POST_TITLE}"' content/posts/${POST_NAME}.md
+package: ## zip website
+	@hugo
+	@zip awesome-website.zip ./dist
 
-package: ## produces a file awesome-website.zip, containing the binary awesome-api and the directory dist
-	zip -r awesome-website.zip dist/ awesome-api
+lint: ## lint with markdown
+	@apt install curl -y
+	@curl --silent --location https://deb.nodesource.com/setup_16.x | bash -
+	@apt install nodejs -y
+	@npm install -g markdownlint-cli 1>&2
+	@markdownlint README.md
+	@markdownlint DEPLOY.md
 
-lint: ## update files README.md and DEPLOY.md to markdownlint
-	curl --silent --location -fsSL https://deb.nodesource.com/setup_16.x | bash -
-	apt-get install -y nodejs
-	npm install -g markdownlint-cli || true
-	markdownlint --fix DEPLOY.md
-
-help: ## shows commands
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
-
-unit-tests: ## ERROR: No comment found for target unit-tests in ./Makefile
+unit-tests: ## test file
+	@echo "running unit tests"
 	touch coverage-units.out
 
-integration-tests: ## ERROR: No comment found for target integration-tests in ./Makefile
+integration-tests: ## integrate file
+	@echo "running integration tests"
 	touch coverage-integrations.out
 
-validate: ## ERROR: No comment found for target validate in ./Makefile
+validate: ## valide file
 
-build-docker: ## build a docker image from Dockerfile
-	docker build --no-cache -t awesome:build -f ./build/Dockerfile .
+.PHONY:
+build-docker: ## build-docker
+	@docker build -t "awesome:build" ./build
+
+.PHONY: build-dependencies
+build-dependencies: ## build dependencies
+	@sudo apt install ./hugo.deb
